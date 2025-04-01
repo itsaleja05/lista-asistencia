@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Asistencia</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="container">
+        <h2>Lista de Asistencia</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Control Asistencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(persona, index) in personas" :key="index" :class="persona.estado">
+                    <td>{{ persona.nombre }}</td>
+                    <td>{{ persona.apellido }}</td>
+                    <td>
+                        <label>
+                            <input type="radio" :name="'asistencia-' + index" value="asistio" v-model="persona.estado">
+                            Asistió
+                        </label>
+                        <label>
+                            <input type="radio" :name="'asistencia-' + index" value="no-asistio" v-model="persona.estado">
+                            No Asistió
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Contador de asistencia -->
+        <div class="contador">
+            <p>Total Asistieron: {{ totalAsistieron }}</p>
+            <p>Total No Asistieron: {{ totalNoAsistieron }}</p>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+    
+        createApp({
+            data() {
+                return {
+                    personas: [
+                    { nombre: 'Alejandra', apellido: 'Agamez', estado: '' },
+                        { nombre: 'Vanessa', apellido: 'Gulfo', estado: '' },
+                        { nombre: 'Jaider', apellido: 'Carrascal', estado: '' },
+                        { nombre: 'Pedro', apellido: 'Pérez', estado: '' },
+                        { nombre: 'María', apellido: 'Gómez', estado: '' },
+                        { nombre: 'pepito', apellido: 'pérez', estado: '' },
+                        { nombre: 'Juan', apellido: 'López', estado: '' }
+                    ]
+                };
+            },
+            computed: {
+                totalAsistieron() {
+                    return this.personas.filter(persona => persona.estado === 'asistio').length;
+                },
+                totalNoAsistieron() {
+                    return this.personas.filter(persona => persona.estado === 'no-asistio').length;
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
